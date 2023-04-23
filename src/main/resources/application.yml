@@ -1,0 +1,64 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: "jdbc:h2:mem:library;MODE=MYSQL;NON_KEYWORDS=USER"
+    username: "sa"
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: "jdbc:mysql://localhost/library"
+    username: "root"
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none # 스프링이 시작할때 DB에 있는 테이블을 어떻게 처리할지
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+#  하나씩 옵션의 의미를 살펴보면, 다음과 같다.
+#  spring.jpa.hibernate.ddl-auto
+#  스프링이 시작할 때 DB에 있는 테이블을 어떻게 처리할지에 대한 옵션이다.
+#  create : 기존 테이블이 있다면 삭제 후 다시 생성한다.
+  #create-drop : 스프링이 종료될 때 테이블을 삭제한다.
+  #update : 객체와 테이블이 다른 부분만 변경한다.
+  #validate : 객체와 테이블이 동일한지 확인한다.
+  #none : 별다른 조치를 하지 않는다.
+    #  현재 우리는 DB에 테이블이 잘 만들어져 있고, 미리 넣어둔 데이터도 있으므로
+      #  none 이라 설정해 주자!
+#  spring.jpa.properties.hibernate.show_sql
+#  JPA를 사용해 DB에 SQL을 날릴 때 SQL을 보여줄지 결정한다.
+  #  지금은 true로 설정해두자.
+
+#  spring.jpa.properties.hibernate.format_sql
+    # JPA를 사용해 DB에 SQL을 날릴 때 SQL을 예쁘게 포맷팅할지 결정한다.
+    #  마찬가지로 true로 설정해두도록 하자.
+
+#  spring.jpa.properties.hibernate.dialect
+    #  dialect란 한국어로 방언, 사투리라는 뜻이다.
+    #  이 옵션을 통해 JPA가 알아서 Database끼리 다른 SQL을 조금씩 수정해 준다.
+    #  우리는 MySQL 8버전을 사용하고 있으니 org.hibernate.dialect.MySQL8Dialect 로
+    #  설정해 주면 된다.
+
